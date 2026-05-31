@@ -1,0 +1,13 @@
+{
+  "eventType": "ms.vss-pipelines.run-state-changed-event",
+  "publisherId": "pipelines",
+  "resource": {
+    "run": {
+      "id": 67890,
+      "name": "20260531.5",
+      "state": "completed",
+      "result": "failed",
+      "pipeline": { "id": 7, "name": "CI-Pipeline" }
+    }
+  }
+}
