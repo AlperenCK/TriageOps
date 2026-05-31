@@ -1,0 +1,60 @@
+# Yeniden kullanilabilir adim sablonu: pipeline basarisiz oldugunda DevOps AI
+# analizini calistirir ve sonucu Build Summary sekmesine yazar.
+#
+# Kullanim (kendi pipeline'inizda):
+#
+#   steps:
+#     - template: azure-pipelines/analyze-on-failure.yml
+#       parameters:
+#         pythonVersion: '3.11'
+#         llmBaseUrl: 'http://llm-host:11434/v1'   # yerel LLM endpoint'i
+#         llmModel: 'qwen2.5-coder:14b'
+#
+# ON-PREM NOT: Self-hosted agent, hem Azure DevOps Server'a hem de yerel LLM
+# host'una ag erisimine sahip olmalidir. AZDO_BASE_URL koleksiyon URL'inizdir
+# (orn. https://tfs.sirket.local/DefaultCollection).
+#
+# Job ayarinda "Allow scripts to access the OAuth token" ACIK olmalidir; aksi
+# halde $(System.AccessToken) bos gelir.
+
+parameters:
+  - name: pythonVersion
+    type: string
+    default: '3.11'
+  - name: llmBaseUrl
+    type: string
+    default: 'http://localhost:11434/v1'
+  - name: llmModel
+    type: string
+    default: 'qwen2.5-coder:14b'
+  - name: apiVersion
+    type: string
+    default: '7.1'   # On-prem ADS 2022->7.0, 2020->6.0, 2019->5.0
+
+steps:
+  - task: UsePythonVersion@0
+    displayName: 'Python ${{ parameters.pythonVersion }}'
+    condition: failed()
+    inputs:
+      versionSpec: '${{ parameters.pythonVersion }}'
+
+  - script: |
+      set -e
+      python -m pip install --upgrade pip
+      pip install "git+$(Build.Repository.Uri)"  # veya: pip install devops-agent
+    displayName: 'DevOps AI ajanini kur'
+    condition: failed()
+
+  - script: |
+      python -m devops_agent.triggers.cli analyze \
+        --build-id "$(Build.BuildId)" \
+        --in-pipeline
+    displayName: '🤖 DevOps AI: hatayi analiz et'
+    condition: failed()
+    env:
+      AZDO_BASE_URL: $(System.CollectionUri)
+      AZDO_PROJECT: $(System.TeamProject)
+      AZDO_BEARER_TOKEN: $(System.AccessToken)
+      AZDO_API_VERSION: ${{ parameters.apiVersion }}
+      LLM_BASE_URL: ${{ parameters.llmBaseUrl }}
+      LLM_MODEL: ${{ parameters.llmModel }}

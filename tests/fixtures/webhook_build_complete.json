@@ -1,0 +1,12 @@
+{
+  "eventType": "build.complete",
+  "publisherId": "tfs",
+  "resource": {
+    "id": 12345,
+    "buildNumber": "20260531.3",
+    "status": "completed",
+    "result": "failed",
+    "definition": { "id": 7, "name": "CI-Pipeline" },
+    "sourceBranch": "refs/heads/main"
+  }
+}
