@@ -1,7 +1,7 @@
 """FastMCP server: Azure DevOps pipeline araclarini MCP "tool" olarak sunar.
 
 Calistirma:
-  - stdio (Claude Code/Desktop, IDE):   `python -m devops_agent.mcp_server.server`
+  - stdio (MCP uyumlu istemci / IDE):   `python -m devops_agent.mcp_server.server`
   - HTTP (orchestrator/uzak istemci):   `MCP_TRANSPORT=streamable-http python -m ...`
 
 Resmi microsoft/azure-devops-mcp server'inda olmayan kritik arac:
@@ -112,6 +112,16 @@ def get_build_changes(build_id: int, top: int = 20) -> list[dict[str, Any]]:
         }
         for c in changes
     ]
+
+
+@mcp.tool()
+def list_artifacts(build_id: int) -> list[dict[str, Any]]:
+    """Build'in yayinladigi artifact'leri listeler (ad, tip, indirme URL'i, boyut).
+
+    Test sonucu, coverage, build ciktisi gibi artifact'leri analize dahil etmek
+    icin kullanilir.
+    """
+    return _reader().list_artifacts(build_id)
 
 
 @mcp.tool()

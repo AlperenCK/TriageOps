@@ -3,7 +3,7 @@
 Bu modul, MCP server'daki araclarin AYNISINI yerel LLM'in dogrudan
 kullanabilecegi OpenAI 'tools' semasi olarak sunar ve cagrilari ADO katmanina
 yonlendirir. Boylece otomatik akis (CLI/webhook) ek bir subprocess'e gerek
-duymadan ayni ADO mantigini kullanir; MCP server ise interaktif (Claude/IDE)
+duymadan ayni ADO mantigini kullanir; MCP server ise interaktif (IDE)
 kullanim icin ayni araclari MCP transport uzerinden sunmaya devam eder.
 """
 
@@ -56,6 +56,18 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
             },
         },
     },
+    {
+        "type": "function",
+        "function": {
+            "name": "list_artifacts",
+            "description": "Build'in yayinladigi artifact'leri (test sonucu/coverage/build ciktisi) listeler: ad, tip, indirme URL'i, boyut.",
+            "parameters": {
+                "type": "object",
+                "properties": {"build_id": {"type": "integer"}},
+                "required": ["build_id"],
+            },
+        },
+    },
 ]
 
 
@@ -80,4 +92,7 @@ class ToolExecutor:
                 int(args["build_id"]), top=int(args.get("top", 20))
             )
             return json.dumps(changes, ensure_ascii=False)
+        if name == "list_artifacts":
+            artifacts = self.reader.list_artifacts(int(args["build_id"]))
+            return json.dumps(artifacts, ensure_ascii=False)
         return json.dumps({"error": f"bilinmeyen arac: {name}"}, ensure_ascii=False)

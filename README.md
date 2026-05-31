@@ -29,8 +29,8 @@ Azure DevOps ──(1) YAML failed() / (2) Service Hook)── ► CLI / Webhook
                                           Build Summary'ye rapor
 ```
 
-`(3)` MCP server (`devops_agent.mcp_server.server`) tek başına Claude Code/Desktop
-veya IDE'ye bağlanıp **interaktif** de kullanılabilir.
+`(3)` MCP server (`devops_agent.mcp_server.server`) tek başına herhangi bir MCP
+uyumlu istemciye (IDE/Desktop) bağlanıp **interaktif** de kullanılabilir.
 
 ## Kurulum
 
@@ -74,12 +74,12 @@ Project Settings → Service Hooks → Web Hooks aboneliği oluşturun:
 (runResultId=Failed) → URL: `https://<host>:8080/hook`. Rapor build'e attachment
 olarak eklenir ve `ai-analyzed` tag'i atanır.
 
-### 3) MCP server (interaktif, Claude/IDE)
+### 3) MCP server (interaktif, MCP uyumlu istemci / IDE)
 ```bash
 python -m devops_agent.mcp_server.server          # stdio
 MCP_TRANSPORT=streamable-http python -m devops_agent.mcp_server.server  # HTTP
 ```
-Claude Code MCP config örneği:
+MCP istemci config örneği:
 ```json
 { "mcpServers": { "devops-ai": {
   "command": "python", "args": ["-m", "devops_agent.mcp_server.server"],
