@@ -72,6 +72,30 @@ class BuildReader:
         )
         return data.get("value", [])
 
+    # ── Artifacts ───────────────────────────────────────────────────
+    def list_artifacts(self, build_id: int) -> list[dict[str, Any]]:
+        """Build'in yayinladigi artifact'leri listeler.
+
+        Donen her kayit: ad, tip (PipelineArtifact/Container), indirme URL'i ve
+        (varsa) sikistirilmis boyut. Ajan bu sayede test sonucu/coverage/build
+        ciktisi gibi artifact'lerin varligindan haberdar olur ve analizde
+        deginebilir.
+        """
+        data = self.client.get(f"_apis/build/builds/{build_id}/artifacts")
+        result: list[dict[str, Any]] = []
+        for a in data.get("value", []):
+            resource = a.get("resource") or {}
+            props = resource.get("properties") or {}
+            result.append(
+                {
+                    "name": a.get("name"),
+                    "type": resource.get("type"),
+                    "downloadUrl": resource.get("downloadUrl"),
+                    "size_bytes": props.get("artifactsize") or props.get("artifactSize"),
+                }
+            )
+        return result
+
     # ── Timeline -> basarisiz kayitlar ──────────────────────────────
     def get_timeline(self, build_id: int) -> dict[str, Any]:
         return self.client.get(f"_apis/build/builds/{build_id}/timeline")
