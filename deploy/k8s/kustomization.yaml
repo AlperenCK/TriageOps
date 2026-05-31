@@ -1,0 +1,11 @@
+# Tek komutla uygulamak icin:  kubectl apply -k deploy/k8s
+# (Once secret'i olusturun: secret.example.yaml'a bakin.)
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: triageops
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+  # secret.example.yaml KASTEN dahil edilmedi; sirri ayrica olusturun.
