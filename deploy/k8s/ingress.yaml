@@ -1,0 +1,27 @@
+# Service Hook'lar HTTPS ister; Ingress TLS'i burada sonlandirir.
+# cert-manager kullaniyorsaniz asagidaki annotation'i acin.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: triageops-webhook
+  namespace: triageops
+  annotations:
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - triageops.sirket.local
+      secretName: triageops-tls
+  rules:
+    - host: triageops.sirket.local
+      http:
+        paths:
+          - path: /hook
+            pathType: Prefix
+            backend:
+              service:
+                name: triageops-webhook
+                port:
+                  number: 80

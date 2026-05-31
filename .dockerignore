@@ -1,0 +1,28 @@
+# Git/IDE
+.git
+.gitignore
+.github
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Yerel sirlar / ciktilar (imaja girmemeli)
+.env
+*.env
+devops-ai-summary.md
+triageops-summary.md
+
+# Docs/test (runtime imajinda gereksiz)
+tests/
+docs/
+*.md.bak

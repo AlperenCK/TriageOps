@@ -10,5 +10,5 @@ venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-devops-ai-summary.md
+triageops-summary.md
 *.md.bak
