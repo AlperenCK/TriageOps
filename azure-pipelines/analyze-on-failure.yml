@@ -49,7 +49,7 @@ steps:
       python -m triageops.triggers.cli analyze \
         --build-id "$(Build.BuildId)" \
         --in-pipeline
-    displayName: '🤖 TriageOps: hatayi analiz et'
+    displayName: 'TriageOps: hatayi analiz et'
     condition: failed()
     env:
       AZDO_BASE_URL: $(System.CollectionUri)

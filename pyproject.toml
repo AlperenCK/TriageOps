@@ -1,7 +1,7 @@
 [project]
 name = "triageops"
 version = "0.1.0"
-description = "TriageOps — Azure DevOps Pipeline hatalarini otomatik triyaj eden, yerel LLM ile calisan MCP tabanli ajan"
+description = "Azure DevOps Pipeline hatalarini otomatik triyaj eden, yerel LLM ile calisan MCP tabanli ajan"
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }

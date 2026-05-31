@@ -1,4 +1,4 @@
-# TriageOps Webhook — Dağıtım
+# TriageOps Webhook - Dağıtım
 
 TriageOps webhook servisini konteyner olarak çalıştırma rehberi: yerel
 (docker-compose) ve Kubernetes (pod'lar).
@@ -6,14 +6,12 @@ TriageOps webhook servisini konteyner olarak çalıştırma rehberi: yerel
 ## Akış
 
 ```
-Pipeline başarısız ─► Azure DevOps Service Hook ─HTTPS POST─► Ingress(/hook) ─► Service ─► Pod(uvicorn)
-                                                                                              │
-                                                          timeline→log→analiz (yerel LLM) ───┘
-                                                                                              │
-                                                            Build'e attachment + 'ai-analyzed' tag
+Pipeline basarisiz olur
+  -> Azure DevOps Service Hook (HTTPS POST)
+  -> Ingress (/hook) -> Service -> Pod (uvicorn)
+  -> timeline/log analizi (yerel LLM)
+  -> build'e attachment + 'ai-analyzed' etiketi
 ```
-
----
 
 ## 1) İmajı oluştur ve push et
 
@@ -66,13 +64,13 @@ aksi halde `triageops-tls` adında bir TLS secret'ı kendiniz sağlayın.
 
 ## 4) Azure DevOps Service Hook aboneliği
 
-Project Settings → **Service Hooks** → **Web Hooks**:
+Project Settings altinda Service Hooks > Web Hooks:
 
 | Alan | Değer |
 |---|---|
-| Trigger | **A build completed** veya **Run state changed** |
-| Status / Result | **Failed** |
-| **Resource details to send** | **All** ← önemli, yoksa payload eksik gelir |
+| Trigger | A build completed veya Run state changed |
+| Status / Result | Failed |
+| Resource details to send | All (onemli, yoksa payload eksik gelir) |
 | URL | `https://triageops.sirket.local/hook?token=<WEBHOOK_SECRET>` |
 
 veya API ile:
@@ -90,10 +88,10 @@ curl -u :$AZDO_PAT -X POST \
 
 ## 5) Uçtan uca test
 
-- Service Hooks ekranındaki **Test** butonu örnek payload gönderir → pod loglarında
+- Service Hooks ekranındaki Test butonu örnek payload gönderir; pod loglarında
   `analiz baslatiliyor` görünmeli.
-- Bilerek bozulan bir pipeline çalıştır → build'in **Attachments** kısmında
-  TriageOps raporu ve **`ai-analyzed`** tag'i belirir.
+- Bilerek bozulan bir pipeline çalıştırın; build'in Attachments kısmında
+  TriageOps raporu ve `ai-analyzed` etiketi belirir.
 
 ## Notlar
 

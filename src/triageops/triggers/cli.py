@@ -1,4 +1,4 @@
-"""CLI tetikleyici — pipeline YAML adimindan (condition: failed()) cagrilir.
+"""CLI tetikleyici: pipeline YAML adimindan (condition: failed()) cagrilir.
 
 Kullanim:
   triageops analyze --build-id 12345

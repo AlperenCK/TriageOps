@@ -20,7 +20,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # ── Azure DevOps ────────────────────────────────────────────────
+    # Azure DevOps
     # Bulut:   https://dev.azure.com/<org>
     # On-prem: https://tfs.sirket.local/DefaultCollection
     azdo_base_url: str = Field(default="https://dev.azure.com/org")
@@ -31,13 +31,13 @@ class Settings(BaseSettings):
     azdo_api_version: str = Field(default="7.1")
     azdo_verify_ssl: bool = Field(default=True)
 
-    # ── Yerel LLM (OpenAI uyumlu) ───────────────────────────────────
+    # Yerel LLM (OpenAI uyumlu)
     llm_base_url: str = Field(default="http://localhost:11434/v1")
     llm_model: str = Field(default="qwen2.5-coder:14b")
     llm_api_key: str = Field(default="not-needed")
     llm_max_tool_iterations: int = Field(default=8)
 
-    # ── Webhook ─────────────────────────────────────────────────────
+    # Webhook
     webhook_secret: str = Field(default="")
 
     @property

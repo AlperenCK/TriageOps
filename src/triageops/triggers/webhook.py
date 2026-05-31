@@ -1,4 +1,4 @@
-"""Webhook tetikleyici — Azure DevOps Service Hook alicisi (FastAPI).
+"""Webhook tetikleyici: Azure DevOps Service Hook alicisi (FastAPI).
 
 Service Hook olaylari:
   - Klasik:        publisherId=tfs, eventType=build.complete  (buildStatus=Failed)
