@@ -11,10 +11,10 @@ import json
 from dataclasses import dataclass
 from typing import Any
 
-from devops_agent.agent.prompts import SYSTEM_PROMPT, build_user_task
-from devops_agent.agent.tools import TOOL_SCHEMAS, ToolExecutor
-from devops_agent.config import Settings, get_settings
-from devops_agent.llm.local_client import LocalLLM
+from triageops.agent.prompts import SYSTEM_PROMPT, build_user_task
+from triageops.agent.tools import TOOL_SCHEMAS, ToolExecutor
+from triageops.config import Settings, get_settings
+from triageops.llm.local_client import LocalLLM
 
 
 @dataclass

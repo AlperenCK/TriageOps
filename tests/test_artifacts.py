@@ -1,6 +1,6 @@
 """Artifact listeleme testi."""
 
-from devops_agent.ado.builds import BuildReader
+from triageops.ado.builds import BuildReader
 
 
 class _ArtifactClient:

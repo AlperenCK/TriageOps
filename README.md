@@ -1,8 +1,10 @@
-# DevOps AI — Azure DevOps Pipeline Hata Analiz Ajanı
+# TriageOps — Azure DevOps Pipeline Hata Triyaj Ajanı
+
+> _Pipeline failure triage, otomatik._
 
 Azure DevOps Pipeline'larına entegre olan, **pipeline hatalarını otomatik analiz
 edip kök neden + somut çözüm önerisi üreten**, MCP tabanlı ve **yerel LLM** ile
-çalışan bir DevOps yapay zekası.
+çalışan bir DevOps triyaj ajanı.
 
 > **Azure DevOps On-Prem (Azure DevOps Server / TFS) desteklenir.** Tek fark
 > `AZDO_BASE_URL`'in koleksiyon URL'i olması (örn.
@@ -29,7 +31,7 @@ Azure DevOps ──(1) YAML failed() / (2) Service Hook)── ► CLI / Webhook
                                           Build Summary'ye rapor
 ```
 
-`(3)` MCP server (`devops_agent.mcp_server.server`) tek başına herhangi bir MCP
+`(3)` MCP server (`triageops.mcp_server.server`) tek başına herhangi bir MCP
 uyumlu istemciye (IDE/Desktop) bağlanıp **interaktif** de kullanılabilir.
 
 ## Kurulum
@@ -67,7 +69,7 @@ steps:
 
 ### 2) Service Hook / Webhook (otomatik, pipeline'a dokunmadan)
 ```bash
-uvicorn devops_agent.triggers.webhook:app --host 0.0.0.0 --port 8080
+uvicorn triageops.triggers.webhook:app --host 0.0.0.0 --port 8080
 ```
 Project Settings → Service Hooks → Web Hooks aboneliği oluşturun:
 `build.complete` (buildStatus=Failed) **veya** `run-state-changed-event`
@@ -76,13 +78,13 @@ olarak eklenir ve `ai-analyzed` tag'i atanır.
 
 ### 3) MCP server (interaktif, MCP uyumlu istemci / IDE)
 ```bash
-python -m devops_agent.mcp_server.server          # stdio
-MCP_TRANSPORT=streamable-http python -m devops_agent.mcp_server.server  # HTTP
+python -m triageops.mcp_server.server          # stdio
+MCP_TRANSPORT=streamable-http python -m triageops.mcp_server.server  # HTTP
 ```
 MCP istemci config örneği:
 ```json
-{ "mcpServers": { "devops-ai": {
-  "command": "python", "args": ["-m", "devops_agent.mcp_server.server"],
+{ "mcpServers": { "triageops": {
+  "command": "python", "args": ["-m", "triageops.mcp_server.server"],
   "env": { "AZDO_BASE_URL": "https://tfs.sirket.local/DefaultCollection",
            "AZDO_PROJECT": "MyProject", "AZDO_PAT": "..." } } } }
 ```
@@ -94,9 +96,9 @@ MCP istemci config örneği:
 ## CLI
 
 ```bash
-devops-agent analyze --build-id 12345              # raporu stdout'a bas
-devops-agent analyze --build-id 12345 --in-pipeline  # Build Summary'ye yaz
-devops-agent analyze --build-id 12345 -o rapor.md
+triageops analyze --build-id 12345              # raporu stdout'a bas
+triageops analyze --build-id 12345 --in-pipeline  # Build Summary'ye yaz
+triageops analyze --build-id 12345 -o rapor.md
 ```
 
 ## Test

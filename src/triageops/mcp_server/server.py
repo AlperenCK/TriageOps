@@ -1,7 +1,7 @@
 """FastMCP server: Azure DevOps pipeline araclarini MCP "tool" olarak sunar.
 
 Calistirma:
-  - stdio (MCP uyumlu istemci / IDE):   `python -m devops_agent.mcp_server.server`
+  - stdio (MCP uyumlu istemci / IDE):   `python -m triageops.mcp_server.server`
   - HTTP (orchestrator/uzak istemci):   `MCP_TRANSPORT=streamable-http python -m ...`
 
 Resmi microsoft/azure-devops-mcp server'inda olmayan kritik arac:
@@ -15,11 +15,11 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
-from devops_agent.ado.builds import BuildReader
-from devops_agent.ado.client import AdoClient
-from devops_agent.ado.writeback import BuildWriter
+from triageops.ado.builds import BuildReader
+from triageops.ado.client import AdoClient
+from triageops.ado.writeback import BuildWriter
 
-mcp = FastMCP("devops-ai")
+mcp = FastMCP("triageops")
 
 
 def _reader() -> BuildReader:

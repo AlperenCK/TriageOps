@@ -4,13 +4,13 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 
-from devops_agent.agent.orchestrator import AnalysisResult
+from triageops.agent.orchestrator import AnalysisResult
 
 
 def build_report(result: AnalysisResult, *, build_url: str | None = None) -> str:
     """Ajan ciktisini ust bilgi ekleyerek Build Summary'ye uygun markdown'a cevirir."""
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-    header = f"# 🤖 DevOps AI — Build {result.build_id} Hata Analizi\n\n"
+    header = f"# 🤖 TriageOps — Build {result.build_id} Hata Analizi\n\n"
     meta = f"_Olusturulma: {ts}_"
     if build_url:
         meta += f" · [Build'i ac]({build_url})"

@@ -1,6 +1,6 @@
 """Webhook payload ayristirma testleri (build id + basarisizlik tespiti)."""
 
-from devops_agent.triggers.webhook import extract_build_id, is_failure
+from triageops.triggers.webhook import extract_build_id, is_failure
 
 
 def test_extract_build_complete(load_fixture):

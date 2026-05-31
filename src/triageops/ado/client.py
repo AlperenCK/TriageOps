@@ -15,7 +15,7 @@ from typing import Any
 
 import httpx
 
-from devops_agent.config import Settings, get_settings
+from triageops.config import Settings, get_settings
 
 
 def _auth_header(settings: Settings) -> dict[str, str]:

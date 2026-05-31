@@ -8,7 +8,7 @@ Abonelik kurulumu (On-prem/bulut), Project Settings > Service Hooks veya
 POST {collection}/_apis/hooks/subscriptions ile yapilir; consumer 'webHooks',
 url bu servisin /hook endpoint'i olur.
 
-Calistirma:  uvicorn devops_agent.triggers.webhook:app --host 0.0.0.0 --port 8080
+Calistirma:  uvicorn triageops.triggers.webhook:app --host 0.0.0.0 --port 8080
 """
 
 from __future__ import annotations
@@ -18,15 +18,15 @@ from typing import Any
 
 from fastapi import FastAPI, Header, HTTPException, Request
 
-from devops_agent.ado.builds import BuildReader
-from devops_agent.ado.client import AdoClient
-from devops_agent.ado.writeback import BuildWriter
-from devops_agent.agent.orchestrator import Orchestrator
-from devops_agent.config import get_settings
-from devops_agent.report import build_report
+from triageops.ado.builds import BuildReader
+from triageops.ado.client import AdoClient
+from triageops.ado.writeback import BuildWriter
+from triageops.agent.orchestrator import Orchestrator
+from triageops.config import get_settings
+from triageops.report import build_report
 
-logger = logging.getLogger("devops_agent.webhook")
-app = FastAPI(title="DevOps AI Webhook")
+logger = logging.getLogger("triageops.webhook")
+app = FastAPI(title="TriageOps Webhook")
 
 
 def extract_build_id(payload: dict[str, Any]) -> int | None:

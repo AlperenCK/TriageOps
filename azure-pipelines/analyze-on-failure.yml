@@ -1,4 +1,4 @@
-# Yeniden kullanilabilir adim sablonu: pipeline basarisiz oldugunda DevOps AI
+# Yeniden kullanilabilir adim sablonu: pipeline basarisiz oldugunda TriageOps
 # analizini calistirir ve sonucu Build Summary sekmesine yazar.
 #
 # Kullanim (kendi pipeline'inizda):
@@ -41,15 +41,15 @@ steps:
   - script: |
       set -e
       python -m pip install --upgrade pip
-      pip install "git+$(Build.Repository.Uri)"  # veya: pip install devops-agent
-    displayName: 'DevOps AI ajanini kur'
+      pip install "git+$(Build.Repository.Uri)"  # veya: pip install triageops
+    displayName: 'TriageOps ajanini kur'
     condition: failed()
 
   - script: |
-      python -m devops_agent.triggers.cli analyze \
+      python -m triageops.triggers.cli analyze \
         --build-id "$(Build.BuildId)" \
         --in-pipeline
-    displayName: '🤖 DevOps AI: hatayi analiz et'
+    displayName: '🤖 TriageOps: hatayi analiz et'
     condition: failed()
     env:
       AZDO_BASE_URL: $(System.CollectionUri)
