@@ -1,34 +1,34 @@
 # TriageOps
 
-Azure DevOps Pipeline hatalarini otomatik triyaj eden bir aractir. Bir build
-basarisiz oldugunda devreye girer, hatanin kaynagini bulur ve somut bir cozum
-onerisi uretir. Analiz islemini kendi altyapinizda calisan bir yerel LLM ile
-yapar; veriler disari cikmaz.
+Azure DevOps Pipeline hatalarını otomatik triyaj eden bir araçtır. Bir build
+başarısız olduğunda devreye girer, hatanın kaynağını bulur ve somut bir çözüm
+önerisi üretir. Analiz işlemini kendi altyapınızda çalışan bir yerel LLM ile
+yapar; veriler dışarı çıkmaz.
 
 > Pipeline failure triage, otomatik.
 
-## Proje Ozeti
+## Proje Özeti
 
-CI/CD pipeline'lari basarisiz oldugunda, sorunun nerede oldugunu bulmak icin
-genelde uzun loglari elle taramak gerekir. TriageOps bu adimi otomatiklestirir:
+CI/CD pipeline'ları başarısız olduğunda, sorunun nerede olduğunu bulmak için
+genelde uzun logları elle taramak gerekir. TriageOps bu adımı otomatikleştirir:
 
-- Basarisiz build'in timeline'ini cekerek **tam olarak hangi task'in**
-  basarisiz oldugunu tespit eder.
-- Sadece o task'in logunu okur (tum loglari degil), boylece hem dogru yere
-  odaklanir hem de LLM'e gonderilen baglam kucuk kalir.
-- Gerekirse build'e dahil commit'leri ve yayinlanan artifact'leri inceler.
-- Kok neden ve adim adim cozum onerisini Turkce bir rapor olarak uretir.
+- Başarısız build'in timeline'ını çekerek **tam olarak hangi task'ın**
+  başarısız olduğunu tespit eder.
+- Sadece o task'ın logunu okur (tüm logları değil), böylece hem doğru yere
+  odaklanır hem de LLM'e gönderilen bağlam küçük kalır.
+- Gerekirse build'e dahil commit'leri ve yayınlanan artifact'leri inceler.
+- Kök neden ve adım adım çözüm önerisini Türkçe bir rapor olarak üretir.
 
-Microsoft'un resmi `azure-devops-mcp` sunucusunda bulunmayan "basarisiz task'i
-izole etme" yetenegi bu projenin cekirdek farkidir.
+Microsoft'un resmi `azure-devops-mcp` sunucusunda bulunmayan "başarısız task'ı
+izole etme" yeteneği bu projenin çekirdek farkıdır.
 
-### Ozellikler
+### Özellikler
 
-- Uc farkli entegrasyon yolu: pipeline ici adim, webhook ve MCP sunucusu.
-- Yerel LLM destegi (Ollama, vLLM, LM Studio, llama.cpp gibi OpenAI uyumlu
-  endpoint'ler). Bulut bir LLM saglayicisina ihtiyac yoktur.
+- Üç farklı entegrasyon yolu: pipeline içi adım, webhook ve MCP sunucusu.
+- Yerel LLM desteği (Ollama, vLLM, LM Studio, llama.cpp gibi OpenAI uyumlu
+  endpoint'ler). Bulut bir LLM sağlayıcısına ihtiyaç yoktur.
 - Azure DevOps hem bulut (Services) hem de on-prem (Server / TFS) destekler.
-- Docker imaji ve Kubernetes manifest'leri ile hazir dagitim (`deploy/`).
+- Docker imajı ve Kubernetes manifest'leri ile hazır dağıtım (`deploy/`).
 
 ## Mimari
 
@@ -48,8 +48,8 @@ Orchestrator ---> Yerel LLM (Ollama / vLLM / ...)
 Build Summary'ye rapor
 ```
 
-Ucuncu kullanim olarak MCP sunucusu (`triageops.mcp_server.server`) tek basina
-herhangi bir MCP uyumlu istemciye baglanip interaktif de kullanilabilir.
+Üçüncü kullanım olarak MCP sunucusu (`triageops.mcp_server.server`) tek başına
+herhangi bir MCP uyumlu istemciye bağlanıp interaktif de kullanılabilir.
 
 ## Kurulum
 
@@ -58,14 +58,14 @@ pip install -e ".[dev]"
 cp .env.example .env   # degerleri doldurun
 ```
 
-Yapilandirma tamamen ortam degiskenleri (veya `.env`) uzerinden yapilir;
-tum secenekler icin `.env.example` dosyasina bakin.
+Yapılandırma tamamen ortam değişkenleri (veya `.env`) üzerinden yapılır;
+tüm seçenekler için `.env.example` dosyasına bakın.
 
 ### Yerel LLM
 
 OpenAI uyumlu ve tool-calling (function calling) destekli bir endpoint gerekir.
-Onerilen modeller: `qwen2.5-coder`, `llama3.3`, `mistral`, `deepseek-coder`.
-Ornek (Ollama):
+Önerilen modeller: `qwen2.5-coder`, `llama3.3`, `mistral`, `deepseek-coder`.
+Örnek (Ollama):
 
 ```bash
 ollama pull qwen2.5-coder:14b
@@ -74,17 +74,17 @@ ollama serve            # http://localhost:11434/v1
 
 ### Azure DevOps On-Prem
 
-Tek fark `AZDO_BASE_URL`'in koleksiyon URL'i olmasidir, ornegin
+Tek fark `AZDO_BASE_URL`'in koleksiyon URL'i olmasıdır, örneğin
 `https://tfs.sirket.local/DefaultCollection`. Gerekirse `AZDO_API_VERSION`
-degerini sunucu surumunuze gore dusurun (2022 icin 7.0, 2020 icin 6.0,
-2019 icin 5.0). Self-signed sertifika kullaniyorsaniz `AZDO_VERIFY_SSL=false`
-yapin.
+değerini sunucu sürümünüze göre düşürün (2022 için 7.0, 2020 için 6.0,
+2019 için 5.0). Self-signed sertifika kullanıyorsanız `AZDO_VERIFY_SSL=false`
+yapın.
 
-## Kullanim
+## Kullanım
 
-### 1. Pipeline YAML adimi (basarisizlikta otomatik)
+### 1. Pipeline YAML adımı (başarısızlıkta otomatik)
 
-`azure-pipelines/analyze-on-failure.yml` sablonunu kendi pipeline'iniza ekleyin:
+`azure-pipelines/analyze-on-failure.yml` şablonunu kendi pipeline'ınıza ekleyin:
 
 ```yaml
 steps:
@@ -95,8 +95,8 @@ steps:
       apiVersion: '7.0'   # on-prem surumunuze gore
 ```
 
-Job ayarinda "Allow scripts to access the OAuth token" acik olmalidir
-(System.AccessToken gerekir). Sonuc build'in Summary sekmesine yazilir.
+Job ayarında "Allow scripts to access the OAuth token" açık olmalıdır
+(System.AccessToken gerekir). Sonuç build'in Summary sekmesine yazılır.
 
 ### 2. Service Hook / Webhook (pipeline'a dokunmadan otomatik)
 
@@ -104,12 +104,12 @@ Job ayarinda "Allow scripts to access the OAuth token" acik olmalidir
 uvicorn triageops.triggers.webhook:app --host 0.0.0.0 --port 8080
 ```
 
-Project Settings altinda Service Hooks ile bir Web Hooks aboneligi olusturun:
+Project Settings altında Service Hooks ile bir Web Hooks aboneliği oluşturun:
 `build.complete` (buildStatus=Failed) veya `run-state-changed-event`
-(runResultId=Failed) olayini servisin `/hook` adresine yonlendirin. Rapor
-build'e attachment olarak eklenir ve build'e `ai-analyzed` etiketi atanir.
+(runResultId=Failed) olayını servisin `/hook` adresine yönlendirin. Rapor
+build'e attachment olarak eklenir ve build'e `ai-analyzed` etiketi atanır.
 
-Konteyner ve Kubernetes ile dagitim icin `deploy/README.md` dosyasina bakin.
+Konteyner ve Kubernetes ile dağıtım için `deploy/README.md` dosyasına bakın.
 
 ### 3. MCP sunucusu (interaktif)
 
@@ -118,7 +118,7 @@ python -m triageops.mcp_server.server                                   # stdio
 MCP_TRANSPORT=streamable-http python -m triageops.mcp_server.server     # HTTP
 ```
 
-MCP istemci yapilandirmasi ornegi:
+MCP istemci yapılandırması örneği:
 
 ```json
 { "mcpServers": { "triageops": {
@@ -127,7 +127,7 @@ MCP istemci yapilandirmasi ornegi:
            "AZDO_PROJECT": "MyProject", "AZDO_PAT": "..." } } } }
 ```
 
-Sunulan MCP araclari: `list_failed_builds`, `get_build`,
+Sunulan MCP araçları: `list_failed_builds`, `get_build`,
 `get_failed_timeline_records`, `get_task_log`, `get_build_changes`,
 `list_artifacts`, `add_build_tag`.
 
@@ -145,16 +145,16 @@ triageops analyze --build-id 12345 -o rapor.md      # dosyaya yaz
 pytest
 ```
 
-## Guvenlik Notlari
+## Güvenlik Notları
 
-- Uretimde PAT yerine Entra ID OAuth tercih edin; eski Azure DevOps OAuth
-  2026'da kaldiriliyor.
-- PAT'i en az yetkiyle olusturun: log okumak icin Build (Read), geri yazma
-  islemleri icin ilgili ek kapsamlar.
-- Webhook kullaniyorsaniz `WEBHOOK_SECRET` belirleyin ve servisi yalnizca
-  HTTPS uzerinden yayinlayin.
+- Üretimde PAT yerine Entra ID OAuth tercih edin; eski Azure DevOps OAuth
+  2026'da kaldırılıyor.
+- PAT'i en az yetkiyle oluşturun: log okumak için Build (Read), geri yazma
+  işlemleri için ilgili ek kapsamlar.
+- Webhook kullanıyorsanız `WEBHOOK_SECRET` belirleyin ve servisi yalnızca
+  HTTPS üzerinden yayınlayın.
 
-## Proje Yapisi
+## Proje Yapısı
 
 ```
 src/triageops/
