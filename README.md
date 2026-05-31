@@ -87,6 +87,10 @@ MCP istemci config örneği:
            "AZDO_PROJECT": "MyProject", "AZDO_PAT": "..." } } } }
 ```
 
+**Sunulan MCP araçları:** `list_failed_builds`, `get_build`,
+`get_failed_timeline_records`, `get_task_log`, `get_build_changes`,
+`list_artifacts` (test sonucu/coverage/build çıktısı artifact'leri), `add_build_tag`.
+
 ## CLI
 
 ```bash
