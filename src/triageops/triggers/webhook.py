@@ -26,7 +26,7 @@ from triageops.config import get_settings
 from triageops.report import build_report
 
 logger = logging.getLogger("triageops.webhook")
-app = FastAPI(title="DevOps AI Webhook")
+app = FastAPI(title="TriageOps Webhook")
 
 
 def extract_build_id(payload: dict[str, Any]) -> int | None:
