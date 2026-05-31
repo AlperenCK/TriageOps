@@ -12,8 +12,8 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from devops_agent.ado.builds import BuildReader
-from devops_agent.ado.client import AdoClient
+from triageops.ado.builds import BuildReader
+from triageops.ado.client import AdoClient
 
 TOOL_SCHEMAS: list[dict[str, Any]] = [
     {

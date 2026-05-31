@@ -11,7 +11,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Any
 
-from devops_agent.ado.client import AdoClient
+from triageops.ado.client import AdoClient
 
 
 @dataclass

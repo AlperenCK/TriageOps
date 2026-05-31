@@ -1,8 +1,8 @@
 """CLI tetikleyici — pipeline YAML adimindan (condition: failed()) cagrilir.
 
 Kullanim:
-  devops-agent analyze --build-id 12345
-  devops-agent analyze --build-id 12345 --in-pipeline   # Build Summary'ye yazar
+  triageops analyze --build-id 12345
+  triageops analyze --build-id 12345 --in-pipeline   # Build Summary'ye yazar
 """
 
 from __future__ import annotations
@@ -11,14 +11,14 @@ from pathlib import Path
 
 import typer
 
-from devops_agent.agent.orchestrator import Orchestrator
-from devops_agent.ado.builds import BuildReader
-from devops_agent.ado.client import AdoClient
-from devops_agent.ado.writeback import emit_build_summary_logging_command, emit_log_issue
-from devops_agent.config import get_settings
-from devops_agent.report import build_report
+from triageops.agent.orchestrator import Orchestrator
+from triageops.ado.builds import BuildReader
+from triageops.ado.client import AdoClient
+from triageops.ado.writeback import emit_build_summary_logging_command, emit_log_issue
+from triageops.config import get_settings
+from triageops.report import build_report
 
-app = typer.Typer(add_completion=False, help="Azure DevOps DevOps AI ajani")
+app = typer.Typer(add_completion=False, help="Azure DevOps TriageOps ajani")
 
 
 @app.command()
@@ -54,7 +54,7 @@ def analyze(
     if in_pipeline:
         emit_build_summary_logging_command(report)
         emit_log_issue(
-            f"DevOps AI analizi tamamlandi ({result.tool_calls} arac cagrisi). "
+            f"TriageOps analizi tamamlandi ({result.tool_calls} arac cagrisi). "
             "Ayrintilar Build Summary sekmesinde."
         )
     else:

@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from devops_agent.ado.client import AdoClient
+from triageops.ado.client import AdoClient
 
 
 def emit_build_summary_logging_command(markdown: str, *, title: str = "AI Analizi") -> Path:
@@ -24,7 +24,7 @@ def emit_build_summary_logging_command(markdown: str, *, title: str = "AI Analiz
     """
     out_dir = Path(os.getenv("AGENT_TEMPDIRECTORY", os.getenv("BUILD_ARTIFACTSTAGINGDIRECTORY", ".")))
     out_dir.mkdir(parents=True, exist_ok=True)
-    path = out_dir / "devops-ai-summary.md"
+    path = out_dir / "triageops-summary.md"
     path.write_text(markdown, encoding="utf-8")
     # Azure Pipelines logging komutlari (agent stdout'tan okur):
     print(f"##vso[task.uploadsummary]{path.resolve()}")
@@ -48,13 +48,13 @@ class BuildWriter:
         return self.client.put(f"_apis/build/builds/{build_id}/tags/{tag}")
 
     def upload_attachment(
-        self, build_id: int, markdown: str, *, name: str = "devops-ai-analysis.md"
+        self, build_id: int, markdown: str, *, name: str = "triageops-analysis.md"
     ) -> Any:
         """Raporu build'e ek (attachment) olarak yukler.
 
         Pipeline disindan Build Summary'ye dogrudan yazilamadigi icin rapor
         attachment olarak saklanir ve build 'ai-analyzed' tag'i ile isaretlenir.
         """
-        path = f"_apis/build/builds/{build_id}/attachments/devops-ai/{name}"
+        path = f"_apis/build/builds/{build_id}/attachments/triageops/{name}"
         self.client.post(path, json={"content": markdown}, content_type="application/octet-stream")
         return self.add_build_tag(build_id, "ai-analyzed")

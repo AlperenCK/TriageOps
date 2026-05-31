@@ -11,7 +11,7 @@ from typing import Any
 
 from openai import OpenAI
 
-from devops_agent.config import Settings, get_settings
+from triageops.config import Settings, get_settings
 
 
 class LocalLLM:

@@ -2,8 +2,8 @@
 
 from types import SimpleNamespace
 
-from devops_agent.agent.orchestrator import Orchestrator
-from devops_agent.config import Settings
+from triageops.agent.orchestrator import Orchestrator
+from triageops.config import Settings
 
 
 def _tool_call(call_id, name, arguments):
