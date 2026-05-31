@@ -1,8 +1,10 @@
-# TriageOps — Azure DevOps Pipeline Hata Analiz Ajanı
+# TriageOps — Azure DevOps Pipeline Hata Triyaj Ajanı
+
+> _Pipeline failure triage, otomatik._
 
 Azure DevOps Pipeline'larına entegre olan, **pipeline hatalarını otomatik analiz
 edip kök neden + somut çözüm önerisi üreten**, MCP tabanlı ve **yerel LLM** ile
-çalışan bir DevOps yapay zekası.
+çalışan bir DevOps triyaj ajanı.
 
 > **Azure DevOps On-Prem (Azure DevOps Server / TFS) desteklenir.** Tek fark
 > `AZDO_BASE_URL`'in koleksiyon URL'i olması (örn.
