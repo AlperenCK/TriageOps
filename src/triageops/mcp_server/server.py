@@ -5,7 +5,7 @@ Calistirma:
   - HTTP (orchestrator/uzak istemci):   `MCP_TRANSPORT=streamable-http python -m ...`
 
 Resmi microsoft/azure-devops-mcp server'inda olmayan kritik arac:
-  `get_failed_timeline_records` — hangi task'in neden basarisiz oldugunu bulur.
+  `get_failed_timeline_records` - hangi task'in neden basarisiz oldugunu bulur.
 """
 
 from __future__ import annotations

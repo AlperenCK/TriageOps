@@ -42,7 +42,7 @@ class AdoClient:
             timeout=60.0,
         )
 
-    # ── Dusuk seviye ────────────────────────────────────────────────
+    # Dusuk seviye
     def _url(self, path: str, *, collection_scope: bool = False) -> str:
         base = self.settings.collection_base if collection_scope else self.settings.project_base
         return f"{base}/{path.lstrip('/')}"

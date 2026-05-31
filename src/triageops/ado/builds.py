@@ -42,7 +42,7 @@ class BuildReader:
     def __init__(self, client: AdoClient):
         self.client = client
 
-    # ── Build listeleme / detay ─────────────────────────────────────
+    # Build listeleme / detay
     def list_failed_builds(
         self,
         *,
@@ -72,7 +72,7 @@ class BuildReader:
         )
         return data.get("value", [])
 
-    # ── Artifacts ───────────────────────────────────────────────────
+    # Artifacts
     def list_artifacts(self, build_id: int) -> list[dict[str, Any]]:
         """Build'in yayinladigi artifact'leri listeler.
 
@@ -96,7 +96,7 @@ class BuildReader:
             )
         return result
 
-    # ── Timeline -> basarisiz kayitlar ──────────────────────────────
+    # Timeline -> basarisiz kayitlar
     def get_timeline(self, build_id: int) -> dict[str, Any]:
         return self.client.get(f"_apis/build/builds/{build_id}/timeline")
 
@@ -135,7 +135,7 @@ class BuildReader:
             )
         return result
 
-    # ── Log icerigi ─────────────────────────────────────────────────
+    # Log icerigi
     def get_task_log(
         self,
         build_id: int,
